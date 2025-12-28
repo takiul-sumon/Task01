@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:taskassignment/common%20widgets/alaram_model.dart';
 import 'package:taskassignment/common%20widgets/alert_tile.dart';
+import 'package:taskassignment/helper/notification_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,8 +55,8 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(28),
                     gradient: LinearGradient(
                       colors: [
-                        Colors.white.withOpacity(0.10),
-                        Colors.white.withOpacity(0.05),
+                        Color.fromARGB(26, 255, 255, 255),
+                        Color.fromARGB(13, 255, 255, 255),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                       border: InputBorder.none,
                       hintText: 'Add your location',
                       hintStyle: TextStyle(
-                        color: Colors.white.withOpacity(0.6),
+                        color: const Color.fromARGB(153, 255, 255, 255),
                         fontSize: 16,
                       ),
 
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
 
                       prefixIcon: Icon(
                         Icons.location_on_outlined,
-                        color: Colors.white.withOpacity(0.6),
+                        color: const Color.fromARGB(153, 255, 255, 255),
                       ),
                     ),
                   ),
@@ -149,7 +150,7 @@ class _HomePageState extends State<HomePage> {
     DateTime? date = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2025),
+      firstDate: DateTime.now(), // ⬅ prevent past alarms
       lastDate: DateTime(2100),
     );
 
@@ -170,13 +171,27 @@ class _HomePageState extends State<HomePage> {
       time.minute,
     );
 
+    if (finalDateTime.isBefore(DateTime.now())) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please select a future time")),
+        );
+      }
+      return;
+    }
+
+    final alarm = AlarmModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      dateTime: finalDateTime,
+    );
+
     setState(() {
-      _alarms.add(
-        AlarmModel(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          dateTime: finalDateTime,
-        ),
-      );
+      _alarms.add(alarm);
     });
+
+    await NotificationService.scheduleAlarm(
+      id: alarm.id.hashCode,
+      dateTime: alarm.dateTime,
+    );
   }
 }

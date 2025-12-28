@@ -14,7 +14,7 @@ class CustomDot extends StatelessWidget {
         shape: BoxShape.circle,
         color: isActive
             ? Colors.deepPurpleAccent
-            : Colors.white.withOpacity(0.3),
+            : Color.fromARGB(77, 255, 255, 255)
       ),
     );
   }

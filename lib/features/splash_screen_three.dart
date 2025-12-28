@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskassignment/common%20widgets/custom_dot.dart';
 import 'package:taskassignment/common%20widgets/elevatedbutton.dart';
 import 'package:taskassignment/features/fetch_location.dart';
@@ -38,7 +39,7 @@ class _SplashScreenThreeState extends State<SplashScreenThree> {
                     ),
                     child: Image.asset(
                       'assets/images/b2477c8c241e9b0db4a917dc85f3cc72 1.png',
-                      height: 460,
+                      height: 430.h,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -91,7 +92,7 @@ class _SplashScreenThreeState extends State<SplashScreenThree> {
               right: 24,
               child: GestureDetector(
                 onTap: () {
-                  // Navigator.pushReplacement(...)
+                  Navigator.pushNamed(context, FetchLocation.name);
                 },
                 child: const Text(
                   'Skip',

@@ -5,7 +5,6 @@ class AlarmModel {
 
   AlarmModel({required this.id, required this.dateTime, this.isActive = true});
 
-  /// Convert to Map (for Firebase / local storage)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -14,7 +13,6 @@ class AlarmModel {
     };
   }
 
-  /// Create object from Map
   factory AlarmModel.fromMap(Map<String, dynamic> map) {
     return AlarmModel(
       id: map['id'],

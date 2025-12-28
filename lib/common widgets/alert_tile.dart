@@ -24,8 +24,8 @@ class AlarmTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(32),
         gradient: LinearGradient(
           colors: [
-            Colors.white.withOpacity(0.12),
-            Colors.white.withOpacity(0.06),
+            Color.fromARGB(31, 255, 255, 255), // 12%
+            Color.fromARGB(15, 255, 255, 255),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -46,13 +46,7 @@ class AlarmTile extends StatelessWidget {
           const Spacer(),
 
           // Date
-          Text(
-            date,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          ),
+          Text(date, style: TextStyle(color: Colors.white, fontSize: 14)),
 
           const SizedBox(width: 12),
 
@@ -60,10 +54,9 @@ class AlarmTile extends StatelessWidget {
           Switch(
             value: isEnabled,
             onChanged: onChanged,
-            activeColor: Colors.white,
             activeTrackColor: const Color(0xFF7B4DFF),
-            inactiveThumbColor: Colors.white,
-            inactiveTrackColor: Colors.white.withOpacity(0.25),
+            inactiveThumbColor: Colors.black,
+            inactiveTrackColor: Colors.white,
           ),
         ],
       ),

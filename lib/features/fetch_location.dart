@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:location/location.dart';
 import 'package:taskassignment/common%20widgets/elevatedbutton.dart';
 import 'package:taskassignment/features/home_page.dart';
 
@@ -49,8 +51,8 @@ class _FetchLocationState extends State<FetchLocation> {
               ),
               SizedBox(height: 60),
               SizedBox(
-                height: 215,
-                width: 360,
+                height: 215.h,
+                width: 305.w,
                 child: Image.asset(
                   'assets/images/dino-reichmuth-A5rCN8626Ck-unsplash 1.png',
                   fit: BoxFit.fill,
@@ -63,7 +65,7 @@ class _FetchLocationState extends State<FetchLocation> {
                   height: 56,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: getCurrentLocation,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent, // remove shadow
@@ -101,6 +103,34 @@ class _FetchLocationState extends State<FetchLocation> {
         ),
       ),
     );
+  }
+
+  Future<void> getCurrentLocation() async {
+    Location location = Location();
+
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) return;
+    }
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) return;
+    }
+
+    locationData = await location.getLocation();
+
+    debugPrint("Latitude: ${locationData.latitude}");
+    debugPrint("Longitude: ${locationData.longitude}");
+
+    if (mounted) {
+      Navigator.pushNamed(context, HomePage.name);
+    }
   }
 
   onTapNextPage() {

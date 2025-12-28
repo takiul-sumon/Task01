@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskassignment/common%20widgets/custom_dot.dart';
 import 'package:taskassignment/common%20widgets/elevatedbutton.dart';
+import 'package:taskassignment/features/fetch_location.dart';
 import 'package:taskassignment/features/splash_screen_three.dart';
 
 class SplashScreenTwo extends StatefulWidget {
@@ -38,7 +40,7 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                     ),
                     child: Image.asset(
                       'assets/images/morning walk gif 1.png',
-                      height: 460,
+                      height: 430.h,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -91,7 +93,7 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
               right: 24,
               child: GestureDetector(
                 onTap: () {
-                  // Navigator.pushReplacement(...)
+                  Navigator.pushNamed(context, FetchLocation.name);
                 },
                 child: const Text(
                   'Skip',
