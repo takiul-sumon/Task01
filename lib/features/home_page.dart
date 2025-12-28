@@ -74,7 +74,6 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 16,
                       ),
 
-                      // 👇 THIS fixes vertical centering
                       contentPadding: const EdgeInsets.symmetric(vertical: 0),
 
                       prefixIcon: Icon(
@@ -99,29 +98,41 @@ class _HomePageState extends State<HomePage> {
 
                 const SizedBox(height: 15),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: _alarms.length,
-                    itemBuilder: (context, index) {
-                      final alarm = _alarms[index];
+                  child: _alarms.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'No alarms found',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 16,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: _alarms.length,
+                          itemBuilder: (context, index) {
+                            final alarm = _alarms[index];
 
-                      return AlarmTile(
-                        time: DateFormat('hh:mm a').format(alarm.dateTime),
-                        date: DateFormat(
-                          'EEE dd MMM yyyy',
-                        ).format(alarm.dateTime),
-                        isEnabled: alarm.isActive,
-                        onChanged: (value) {
-                          setState(() {
-                            _alarms[index] = AlarmModel(
-                              id: alarm.id,
-                              dateTime: alarm.dateTime,
-                              isActive: value,
+                            return AlarmTile(
+                              time: DateFormat(
+                                'hh:mm a',
+                              ).format(alarm.dateTime),
+                              date: DateFormat(
+                                'EEE dd MMM yyyy',
+                              ).format(alarm.dateTime),
+                              isEnabled: alarm.isActive,
+                              onChanged: (value) {
+                                setState(() {
+                                  _alarms[index] = AlarmModel(
+                                    id: alarm.id,
+                                    dateTime: alarm.dateTime,
+                                    isActive: value,
+                                  );
+                                });
+                              },
                             );
-                          });
-                        },
-                      );
-                    },
-                  ),
+                          },
+                        ),
                 ),
               ],
             ),
